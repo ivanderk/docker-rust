@@ -1,0 +1,23 @@
+FROM ubuntu
+
+ENV USER=root
+ENV RUST_VERSION=1.19.0
+
+RUN DEBIAN_FRONTEND=noninteractive && apt-get update && \
+    apt-get install -yq --no-install-recommends \
+        build-essential ca-certificates curl \
+        git openssh-client libssl-dev pkg-config subversion calibre
+
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
+    apt-get install -y nodejs && \
+    mkdir /source
+
+RUN curl -sO https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init && \
+    chmod +x rustup-init && \
+    ./rustup-init -y --default-toolchain $RUST_VERSION --no-modify-path
+
+ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.cargo/bin
+
+WORKDIR /source
+                                                                                                               
+CMD ["/bin/bash"]

@@ -1,0 +1,13 @@
+FROM ivanderk/rust
+
+#ENV USER=root
+#WORKDIR /source
+
+RUN cd /source && git clone https://github.com/rust-lang/rust-by-example.git && \
+    cd rust-by-example && make all && make html pdf epub                                   
+                                                                                                                                                                                
+EXPOSE 4000
+
+WORKDIR /source/rust-by-example
+
+CMD ["/usr/bin/make", "serve"]
