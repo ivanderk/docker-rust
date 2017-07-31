@@ -1,0 +1,16 @@
+FROM ivanderk/rust
+
+#ENV USER=root
+#WORKDIR /source
+
+RUN npm install http-server -g && \
+    cargo install mdbook
+
+RUN cd /source && git clone https://github.com/rust-lang/book.git && \
+    cd book/second-edition && mdbook build
+                                                                                                                                                                
+EXPOSE 8080
+
+WORKDIR /source/book/second-edition/book
+
+CMD ["/usr/lib/node_modules/http-server/bin/http-server", "."]
