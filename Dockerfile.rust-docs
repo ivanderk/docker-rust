@@ -4,13 +4,21 @@ FROM ivanderk/rust
 #WORKDIR /source
 
 RUN npm install http-server -g && \
-    cargo install mdbook
+    cargo install mdbook  && \
+    mkdir /target 
 
 RUN cd /source && git clone https://github.com/rust-lang/book.git && \
-    cd book/second-edition && mdbook build
+    cd book/second-edition && mdbook build && \
+    mv /source/book/second-edition/book /target  && \
+    cd /source && git clone https://github.com/rust-lang-nursery/nomicon.git  && \
+    cd nomicon && mdbook build && \
+    mv /source/nomicon/book /target/nomicon  && \
+    cd /source && git clone https://github.com/rust-lang-nursery/reference.git  && \
+    cd reference && mdbook build && \
+    mv /source/reference/book /target/reference 
                                                                                                                                                                 
 EXPOSE 8080
 
-WORKDIR /source/book/second-edition/book
+WORKDIR /target
 
 CMD ["/usr/lib/node_modules/http-server/bin/http-server", "."]
