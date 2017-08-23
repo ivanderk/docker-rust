@@ -21,6 +21,10 @@ RUN rustup install nightly && \
     rustup target add asmjs-unknown-emscripten && \
     rustup target add wasm32-unknown-emscripten
 
+RUN git clone https://github.com/huytd/rust-webapp-template && \
+    cp -r rust-webapp-template rust-webapp && \
+    cd rust-webapp && make
+
 WORKDIR /src
                                                                                                                
 CMD ["/bin/bash"]
